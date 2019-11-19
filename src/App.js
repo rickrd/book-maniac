@@ -1,5 +1,5 @@
 import React from "react"
-import { Input, Button, Table, Checkbox } from "semantic-ui-react"
+import { Form, Input, Button, Table, Checkbox } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
 import axios from "axios"
 import "./App.scss"
@@ -9,28 +9,18 @@ class App extends React.Component {
     books: localStorage.getItem("books") ? JSON.parse(localStorage.getItem("books")) : []
   }
 
-  // getBooks = e => {
-  //   e.preventDefault()
-  //   const { search } = this.state
-
-  //   const result = search
-  //     ? books.filter(book => {
-  //         return book.title.toLowerCase() == search.toLowerCase() || book.author.toLowerCase() == search.toLowerCase() || book.isbn == search
-  //       })
-  //     : books
-
-  //   this.setState({ search: "", books: result })
-  // }
-
   addBook = e => {
     e.preventDefault()
     const { books } = this.state
     if (!e.target.isbn.value) return null
+    const today = new Date()
+    const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
     try {
       axios.get(`http://openlibrary.org${e.target.isbn.value}.json`).then(res => {
-        const data = res.data
-        data.checked = false
-        this.setState({ books: [...books, data] })
+        const book = res.data
+        book.checked = false
+        book.checked_date = date
+        this.setState({ books: [...books, book] })
       })
     } catch (error) {
       console.log(error)
@@ -53,8 +43,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { books, search } = this.state
-    console.log(books)
+    const { books, report } = this.state
 
     return (
       <div className="App">
@@ -76,26 +65,16 @@ class App extends React.Component {
             <br />
             <b>KEY:</b> <b>/books/OL26631800M</b>
           </div>
-          <div className="add">
-            {/* <form onSubmit={this.getBooks}>
-              <Input 
-                name="search"
-                value={search}
-                onChange={e => {
-                  this.setState({ search: e.target.value })
-                }}
-                placeholder="Search by title"
-              ></Input>
-              <Button type="submit">SEARCH</Button>
-            </form> */}
-            <form onSubmit={this.addBook}>
+          <div className="actions">
+            <Form className="" onSubmit={this.addBook}>
               <Input name="isbn" placeholder="Add by key"></Input>
               <Button type="submit">ADD</Button>
-            </form>
+            </Form>
+            <Button>Get annual report</Button>
           </div>
         </div>
         <div className="container list">
-        <div className="result">A total of {books.length} books stored</div>
+          <div className="result">A total of {books.length} books stored</div>
           <Table celled>
             <Table.Header>
               <Table.Row>
@@ -126,17 +105,20 @@ class App extends React.Component {
                       ))}
                   </Table.Cell>
                   <Table.Cell>
-                    {book.publishers ?
+                    {book.publishers ? (
                       book.publishers.map(publisher => (
                         <div>
                           {publisher}
                           <br />
                         </div>
-                      )) : <div>No publishers (work)</div>}
+                      ))
+                    ) : (
+                      <div>No publishers (work)</div>
+                    )}
                   </Table.Cell>
                   <Table.Cell>{book.publish_date}</Table.Cell>
                   <Table.Cell selectable>
-                    <span>Read?</span> <Checkbox id={i} checked={book.checked} onChange={this.handleCheckbox}></Checkbox>
+                    <span className="action">Read?</span> <Checkbox id={i} checked={book.checked} onChange={this.handleCheckbox}></Checkbox>
                   </Table.Cell>
                 </Table.Row>
               ))}
