@@ -1,12 +1,13 @@
-import React from "react"
-import { Form, Input, Button, Table, Checkbox } from "semantic-ui-react"
-import "semantic-ui-css/semantic.min.css"
-import axios from "axios"
-import "./App.scss"
+import React from 'react'
+import { Form, Input, Button, Table, Checkbox } from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
+import axios from 'axios'
+import './App.scss'
+import Logo from './components/atoms/Logo'
 
 class App extends React.Component {
   state = {
-    books: localStorage.getItem("books") ? JSON.parse(localStorage.getItem("books")) : []
+    books: localStorage.getItem('books') ? JSON.parse(localStorage.getItem('books')) : []
   }
 
   addBook = e => {
@@ -14,7 +15,7 @@ class App extends React.Component {
     const { books } = this.state
     if (!e.target.isbn.value) return null
     const today = new Date()
-    const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     try {
       axios.get(`http://openlibrary.org${e.target.isbn.value}.json`).then(res => {
         const book = res.data
@@ -29,7 +30,7 @@ class App extends React.Component {
 
   componentDidUpdate() {
     const { books } = this.state
-    localStorage.setItem("books", JSON.stringify(books))
+    localStorage.setItem('books', JSON.stringify(books))
   }
 
   handleCheckbox = (e, data) => {
@@ -47,19 +48,17 @@ class App extends React.Component {
 
     return (
       <div className="App">
+        {/* HEADER START */}
         <div className="container header">
-          <div className="logo">
-            <b>BOOK MANIAC</b>
-            <br />
-            <i>A place to store all the information on the books you own. </i>
-          </div>
+          <Logo></Logo>
           <div className="description">
             You can add books to your library by visiting
             <a href="https://openlibrary.org" target="_blank">
-              {" "}
-              openlibrary.org{" "}
+              {' '}
+              openlibrary.org{' '}
             </a>
-            and searching for your book. Once you find it, you can copy the key of the book from the URL. You can follow the example above:
+            and searching for your book. Once you find it, you can copy the key of the book from the
+            URL. You can follow the example above:
             <br />
             <b>URL:</b> https://openlibrary.org<b>/books/OL26631800M</b>/The_Body_Keeps_the_Score
             <br />
@@ -73,6 +72,9 @@ class App extends React.Component {
             <Button>Get annual report</Button>
           </div>
         </div>
+        {/* HEADER END */}
+
+        {/* LIST START */}
         <div className="container list">
           <div className="result">A total of {books.length} books stored</div>
           <Table celled>
@@ -94,7 +96,9 @@ class App extends React.Component {
                       {book.title}
                     </a>
                   </Table.Cell>
-                  <Table.Cell width="4">{book.description ? book.description.value : `No description`}</Table.Cell>
+                  <Table.Cell width="4">
+                    {book.description ? book.description.value : `No description`}
+                  </Table.Cell>
                   <Table.Cell>
                     {book.authors &&
                       book.authors.map(author => (
@@ -118,13 +122,19 @@ class App extends React.Component {
                   </Table.Cell>
                   <Table.Cell>{book.publish_date}</Table.Cell>
                   <Table.Cell selectable>
-                    <span className="action">Read?</span> <Checkbox id={i} checked={book.checked} onChange={this.handleCheckbox}></Checkbox>
+                    <span className="action">Read?</span>{' '}
+                    <Checkbox
+                      id={i}
+                      checked={book.checked}
+                      onChange={this.handleCheckbox}
+                    ></Checkbox>
                   </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
           </Table>
         </div>
+        {/* LIST END */}
       </div>
     )
   }
