@@ -21,13 +21,10 @@ const addBook = e => {
 
 const AddBookForm = () => {
   return (
-    <div className="actions">
       <form className="" onSubmit={addBook}>
         <input name="isbn" placeholder="Add by key"></input>
         <button type="submit">ADD</button>
       </form>
-      <button>Get annual report</button>
-    </div>
   )
 }
 
