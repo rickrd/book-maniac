@@ -1,18 +1,17 @@
 import React from 'react'
-import { Form, Input, Button, Table, Checkbox } from 'semantic-ui-react'
+import { Table, Checkbox } from 'semantic-ui-react'
 
-const handleCheckbox = (e, data) => {
-  const { books } = this.state
+const handleCheckbox = (e, books) => {
   const id = e.target.id
   let updatedBooks = [...books]
   let item = { ...updatedBooks[id] }
-  item.checked = data.checked
+  item.checked = e.target.checked
   updatedBooks[id] = item
   this.setState({ books: updatedBooks })
 }
 
 const TableComponent = props => {
-  const { books } = props
+  const { books, state } = props
   return (
     <Table celled>
       <Table.Header>
@@ -60,7 +59,7 @@ const TableComponent = props => {
             <Table.Cell>{book.publish_date}</Table.Cell>
             <Table.Cell selectable>
               <span className="action">Read?</span>{' '}
-              <Checkbox id={i} checked={book.checked} onChange={handleCheckbox}></Checkbox>
+              <Checkbox id={i} checked={book.checked} onChange={(e) => {handleCheckbox(e, books)}}></Checkbox>
             </Table.Cell>
           </Table.Row>
         ))}

@@ -6,6 +6,8 @@ import Description from './components/atoms/Description'
 import AddBookForm from './components/molecules/AddBookForm'
 import Result from './components/atoms/Result'
 import TableComponent from './components/organisms/Table'
+import { createStore } from 'redux'
+import booksReducer from './components/redux/reducers'
 
 class App extends React.Component {
   state = {
@@ -18,24 +20,22 @@ class App extends React.Component {
   }
 
   render() {
-    const { books } = this.state
-
+    const store = createStore(booksReducer)
+    store.subscribe(() => console.log(store.getState()))
+    console.log(store.getState())
+    const { books } = store.getState().books
     return (
       <div className="App">
-        {/* HEADER START */}
         <div className="container header">
           <Logo></Logo>
           <Description></Description>
           <AddBookForm></AddBookForm>
         </div>
-        {/* HEADER END */}
 
-        {/* LIST START */}
         <div className="container list">
-          <Result books={books}></Result>
-          <TableComponent books={books}></TableComponent>
+          <Result books={store.getState().books}></Result>
+          <TableComponent books={store.getState().books}></TableComponent>
         </div>
-        {/* LIST END */}
       </div>
     )
   }
