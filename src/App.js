@@ -5,28 +5,11 @@ import axios from 'axios'
 import './App.scss'
 import Logo from './components/atoms/Logo'
 import Description from './components/atoms/Description'
+import AddBookForm from './components/molecules/AddBookForm'
 
 class App extends React.Component {
   state = {
     books: localStorage.getItem('books') ? JSON.parse(localStorage.getItem('books')) : []
-  }
-
-  addBook = e => {
-    e.preventDefault()
-    const { books } = this.state
-    if (!e.target.isbn.value) return null
-    const today = new Date()
-    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-    try {
-      axios.get(`http://openlibrary.org${e.target.isbn.value}.json`).then(res => {
-        const book = res.data
-        book.checked = false
-        book.checked_date = date
-        this.setState({ books: [...books, book] })
-      })
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   componentDidUpdate() {
@@ -53,13 +36,7 @@ class App extends React.Component {
         <div className="container header">
           <Logo></Logo>
           <Description></Description>
-          <div className="actions">
-            <Form className="" onSubmit={this.addBook}>
-              <Input name="isbn" placeholder="Add by key"></Input>
-              <Button type="submit">ADD</Button>
-            </Form>
-            <Button>Get annual report</Button>
-          </div>
+          <AddBookForm></AddBookForm>
         </div>
         {/* HEADER END */}
 
