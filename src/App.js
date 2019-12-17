@@ -6,6 +6,7 @@ import './App.scss'
 import Logo from './components/atoms/Logo'
 import Description from './components/atoms/Description'
 import AddBookForm from './components/molecules/AddBookForm'
+import Result from './components/atoms/Result'
 
 class App extends React.Component {
   state = {
@@ -42,7 +43,7 @@ class App extends React.Component {
 
         {/* LIST START */}
         <div className="container list">
-          <div className="result">A total of {books.length} books stored</div>
+          <Result books={books}></Result>
           <Table celled>
             <Table.Header>
               <Table.Row>
