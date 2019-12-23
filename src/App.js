@@ -10,24 +10,14 @@ import { createStore } from 'redux'
 import booksReducer from './components/redux/reducers'
 import Home from './components/pages/Home'
 
-class App extends React.Component {
-  state = {
-    books: localStorage.getItem('books') ? JSON.parse(localStorage.getItem('books')) : []
-  }
+const store = createStore(booksReducer)
 
-  componentDidUpdate() {
-    const { books } = this.state
-    localStorage.setItem('books', JSON.stringify(books))
-  }
-
-  render() {
-    const store = createStore(booksReducer)
-    return (
-      <div className="App">
-        <Home store={store}></Home>
-      </div>
-    )
-  }
+const App = () => {
+  return (
+    <div className="App">
+      <Home store={store}></Home>
+    </div>
+  )
 }
 
 export default App

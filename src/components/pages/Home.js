@@ -30,4 +30,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default mapStateToProps(Home)
+export default connect(mapStateToProps)(Home)
