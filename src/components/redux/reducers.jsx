@@ -1,4 +1,4 @@
-import { UPDATE_READ } from './actions'
+import { UPDATE_READ, CREATE_BOOK } from './actions'
 
 const initialState = {
   books: localStorage.getItem('books') ? JSON.parse(localStorage.getItem('books')) : []
@@ -37,6 +37,8 @@ const booksReducer = (state = [], action) => {
     //       works: action.works
     //     }
     //   ]
+    case CREATE_BOOK:
+      return [...state, action.book]
 
     case UPDATE_READ:
       return state.map((book, index) => {

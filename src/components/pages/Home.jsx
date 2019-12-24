@@ -4,12 +4,14 @@ import Description from '../atoms/Description'
 import AddBookForm from '../molecules/AddBookForm'
 import Result from '../atoms/Result'
 import TableComponent from '../organisms/Table'
-import { connect } from 'react-redux'
+import { connect, Provider } from 'react-redux'
 
 const Home = props => {
-  const { books } = props
+  const { books, store } = props
+  console.log(props)
+  store.subscribe(() => {console.log(store.getState())})
   return (
-    <div>
+    <Provider store={store}>
       <div className="container header">
         <Logo></Logo>
         <Description></Description>
@@ -20,7 +22,7 @@ const Home = props => {
         <Result books={books}></Result>
         <TableComponent books={books}></TableComponent>
       </div>
-    </div>
+    </Provider>
   )
 }
 
