@@ -20,7 +20,7 @@ const Home = props => {
       </div>
 
       <div className="container list">
-        <Result books={books}></Result>
+        <Result></Result>
         <TableComponent></TableComponent>
       </div>
     </Provider>
