@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table, Checkbox } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 
 const handleCheckbox = (e, books) => {
   const id = e.target.id
@@ -12,6 +13,7 @@ const handleCheckbox = (e, books) => {
 
 const TableComponent = props => {
   const { books, state } = props
+
   return (
     <Table celled>
       <Table.Header>
@@ -28,16 +30,16 @@ const TableComponent = props => {
         {books.map((book, i) => (
           <Table.Row>
             <Table.Cell width="2">
-              <a href={`https://openlibrary.org${book.key}`} target="_blank">
-                {book.title}
+              <a href={`https://openlibrary.org${book.data.key}`} target="_blank">
+                {book.data.title}
               </a>
             </Table.Cell>
             <Table.Cell width="4">
-              {book.description ? book.description.value : `No description`}
+              {book.data.description ? book.data.description.value : `No description`}
             </Table.Cell>
             <Table.Cell>
-              {book.authors &&
-                book.authors.map(author => (
+              {book.data.authors &&
+                book.data.authors.map(author => (
                   <a href={`https://openlibrary.org${author.key}`} target="_blank">
                     {author.key ? author.key : author.author.key}
                     <br />
@@ -45,8 +47,8 @@ const TableComponent = props => {
                 ))}
             </Table.Cell>
             <Table.Cell>
-              {book.publishers ? (
-                book.publishers.map(publisher => (
+              {book.data.publishers ? (
+                book.data.publishers.map(publisher => (
                   <div>
                     {publisher}
                     <br />
@@ -56,10 +58,16 @@ const TableComponent = props => {
                 <div>No publishers (work)</div>
               )}
             </Table.Cell>
-            <Table.Cell>{book.publish_date}</Table.Cell>
+            <Table.Cell>{book.data.publish_date}</Table.Cell>
             <Table.Cell selectable>
               <span className="action">Read?</span>{' '}
-              <Checkbox id={i} checked={book.checked} onChange={(e) => {handleCheckbox(e, books)}}></Checkbox>
+              <Checkbox
+                id={i}
+                checked={book.data.checked}
+                onChange={e => {
+                  handleCheckbox(e, books)
+                }}
+              ></Checkbox>
             </Table.Cell>
           </Table.Row>
         ))}
@@ -68,4 +76,10 @@ const TableComponent = props => {
   )
 }
 
-export default TableComponent
+const mapStateToProps = state => {
+  return {
+    books: state.books
+  }
+}
+
+export default connect(mapStateToProps)(TableComponent)

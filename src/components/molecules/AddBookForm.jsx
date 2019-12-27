@@ -1,34 +1,27 @@
 import React from 'react'
-import axios from 'axios'
 import { connect } from 'react-redux'
 import { createBook } from '../redux/actions'
+import doRequest from '../../services/request'
 
-const addBook = (e, props) => {
+const getBook = async (e, props) => {
   e.preventDefault()
-  console.log(props)
   if (!e.target.isbn.value) return null
+
+  const data = await doRequest(`https://openlibrary.org${e.target.isbn.value}.json`)
+  const book = data
+  book.checked = false
   const today = new Date()
   const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-  try {
-    axios.get(`http://openlibrary.org${e.target.isbn.value}.json`).then(res => {
-      const book = res.data
-      book.checked = false
-      book.checked_date = date
-      console.log(book)
-      props.dispatch(createBook(book))
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  book.checked_date = date
+  props.dispatch(createBook(data))
 }
 
 const AddBookForm = props => {
-  console.log(props)
   return (
     <form
       className=""
       onSubmit={e => {
-        addBook(e, props)
+        getBook(e, props)
       }}
     >
       <input name="isbn" placeholder="Add by key"></input>

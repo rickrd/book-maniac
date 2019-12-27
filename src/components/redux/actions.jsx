@@ -5,6 +5,7 @@ export const updateRead = index => {
   return { type: UPDATE_READ, index }
 }
 
-export const createBook = book => {
-  return { type: CREATE_BOOK, book }
+export const createBook = data => {
+  return { type: CREATE_BOOK, data }
 }
+

@@ -8,8 +8,9 @@ import { connect, Provider } from 'react-redux'
 
 const Home = props => {
   const { books, store } = props
-  console.log(props)
-  store.subscribe(() => {console.log(store.getState())})
+  store.subscribe(() => {
+    console.log(store.getState())
+  })
   return (
     <Provider store={store}>
       <div className="container header">
@@ -20,7 +21,7 @@ const Home = props => {
 
       <div className="container list">
         <Result books={books}></Result>
-        <TableComponent books={books}></TableComponent>
+        <TableComponent></TableComponent>
       </div>
     </Provider>
   )
