@@ -1,12 +1,13 @@
 import { UPDATE_READ, CREATE_BOOK } from './actions'
 
 const initialState = {
-  books: []
+  books: localStorage.getItem('books') ? JSON.parse(localStorage.getItem('books')) : []
 }
 
 const booksReducer = (state = [], action) => {
   switch (action.type) {
     case CREATE_BOOK:
+      localStorage.setItem('books', JSON.stringify([...state, { data: action.data }]))
       return [
         ...state,
         {
