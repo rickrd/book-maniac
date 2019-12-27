@@ -4,10 +4,10 @@ import Description from '../atoms/Description'
 import AddBookForm from '../molecules/AddBookForm'
 import Result from '../atoms/Result'
 import TableComponent from '../organisms/Table'
-import { connect, Provider } from 'react-redux'
+import { Provider } from 'react-redux'
 
 const Home = props => {
-  const { books, store } = props
+  const { store } = props
   store.subscribe(() => {
     console.log(store.getState())
   })
@@ -27,10 +27,4 @@ const Home = props => {
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    books: state.books
-  }
-}
-
-export default connect(mapStateToProps)(Home)
+export default Home
