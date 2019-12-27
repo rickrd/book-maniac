@@ -58,7 +58,7 @@ const TableComponent = props => {
                 <div>No publishers (work)</div>
               )}
             </Table.Cell>
-            <Table.Cell>{book.data.publish_date}</Table.Cell>
+            <Table.Cell>{book.data.publish_date ? book.data.publish_date : book.data.created.value.split('T')[0]}</Table.Cell>
             <Table.Cell selectable>
               <span className="action">Read?</span>{' '}
               <Checkbox
