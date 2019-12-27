@@ -12,7 +12,7 @@ const handleCheckbox = (e, books) => {
 }
 
 const TableComponent = props => {
-  const { books, state } = props
+  const { books } = props
 
   return (
     <Table celled>
