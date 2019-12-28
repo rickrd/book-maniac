@@ -7,19 +7,14 @@ const initialState = {
 const booksReducer = (state = [], action) => {
   switch (action.type) {
     case CREATE_BOOK:
-      localStorage.setItem('books', JSON.stringify([...state, { data: action.data }]))
-      return [
-        ...state,
-        {
-          data: action.data
-        }
-      ]
+      localStorage.setItem('books', JSON.stringify([...state, action.data]))
+      return [...state, action.data]
 
     case UPDATE_READ:
       return state.map((book, index) => {
-        if (index === action.index) {
+        if (index == action.index) {
           return Object.assign({}, book, {
-            read: !book.read
+            checked: !book.checked
           })
         } else return book
       })

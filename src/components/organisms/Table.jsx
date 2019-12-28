@@ -1,14 +1,11 @@
 import React from 'react'
 import { Table, Checkbox } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { updateRead } from '../redux/actions'
 
-const handleCheckbox = (e, books) => {
+const handleCheckbox = (e, props) => {
   const id = e.target.id
-  let updatedBooks = [...books]
-  let item = { ...updatedBooks[id] }
-  item.checked = e.target.checked
-  updatedBooks[id] = item
-  this.setState({ books: updatedBooks })
+  props.dispatch(updateRead(id))
 }
 
 const TableComponent = props => {
@@ -30,16 +27,16 @@ const TableComponent = props => {
         {books.map((book, i) => (
           <Table.Row>
             <Table.Cell width="2">
-              <a href={`https://openlibrary.org${book.data.key}`} target="_blank">
-                {book.data.title}
+              <a href={`https://openlibrary.org${book.key}`} target="_blank">
+                {book.title}
               </a>
             </Table.Cell>
             <Table.Cell width="4">
-              {book.data.description ? book.data.description.value : `No description`}
+              {book.description ? book.description.value : `No description`}
             </Table.Cell>
             <Table.Cell>
-              {book.data.authors &&
-                book.data.authors.map(author => (
+              {book.authors &&
+                book.authors.map(author => (
                   <a href={`https://openlibrary.org${author.key}`} target="_blank">
                     {author.key ? author.key : author.author.key}
                     <br />
@@ -47,8 +44,8 @@ const TableComponent = props => {
                 ))}
             </Table.Cell>
             <Table.Cell>
-              {book.data.publishers ? (
-                book.data.publishers.map(publisher => (
+              {book.publishers ? (
+                book.publishers.map(publisher => (
                   <div>
                     {publisher}
                     <br />
@@ -58,14 +55,18 @@ const TableComponent = props => {
                 <div>No publishers (work)</div>
               )}
             </Table.Cell>
-            <Table.Cell>{book.data.publish_date ? book.data.publish_date : book.data.created.value.split('T')[0]}</Table.Cell>
+            <Table.Cell>
+              {book.publish_date
+                ? book.publish_date
+                : book.created.value.split('T')[0]}
+            </Table.Cell>
             <Table.Cell selectable>
               <span className="action">Read?</span>{' '}
               <Checkbox
                 id={i}
-                checked={book.data.checked}
+                checked={book.checked}
                 onChange={e => {
-                  handleCheckbox(e, books)
+                  handleCheckbox(e, props)
                 }}
               ></Checkbox>
             </Table.Cell>

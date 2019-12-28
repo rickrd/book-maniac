@@ -10,6 +10,7 @@ const Home = props => {
   const { store } = props
   store.subscribe(() => {
     console.log(store.getState())
+    localStorage.setItem('books', JSON.stringify(store.getState().books))
   })
   return (
     <Provider store={store}>
