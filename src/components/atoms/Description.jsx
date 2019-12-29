@@ -4,7 +4,7 @@ const Description = () => {
   return (
     <div className="description">
       You can add books to your library by visiting
-      <a href="https://openlibrary.org" target="_blank">
+      <a href="https://openlibrary.org" rel="noopener noreferrer" target="_blank">
         {' '}
         openlibrary.org{' '}
       </a>

@@ -27,7 +27,11 @@ const TableComponent = props => {
         {books.map((book, index) => (
           <Table.Row key={index}>
             <Table.Cell width="2">
-              <a href={`https://openlibrary.org${book.key}`} target="_blank">
+              <a
+                href={`https://openlibrary.org${book.key}`}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 {book.title}
               </a>
             </Table.Cell>
@@ -37,7 +41,12 @@ const TableComponent = props => {
             <Table.Cell>
               {book.authors &&
                 book.authors.map((author, index) => (
-                  <a key={index} href={`https://openlibrary.org${author.key}`} target="_blank">
+                  <a
+                    key={index}
+                    href={`https://openlibrary.org${author.key}`}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
                     {author.key ? author.key : author.author.key}
                     <br />
                   </a>
@@ -56,9 +65,7 @@ const TableComponent = props => {
               )}
             </Table.Cell>
             <Table.Cell>
-              {book.publish_date
-                ? book.publish_date
-                : book.created.value.split('T')[0]}
+              {book.publish_date ? book.publish_date : book.created.value.split('T')[0]}
             </Table.Cell>
             <Table.Cell selectable>
               <span className="action">Read?</span>{' '}
