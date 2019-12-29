@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 
 const Home = props => {
   const { store } = props
+  console.log(store.getState().books)
   store.subscribe(() => {
     console.log(store.getState())
     localStorage.setItem('books', JSON.stringify(store.getState().books))

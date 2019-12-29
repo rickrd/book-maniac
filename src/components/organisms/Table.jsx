@@ -24,8 +24,8 @@ const TableComponent = props => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {books.map((book, i) => (
-          <Table.Row>
+        {books.map((book, index) => (
+          <Table.Row key={index}>
             <Table.Cell width="2">
               <a href={`https://openlibrary.org${book.key}`} target="_blank">
                 {book.title}
@@ -36,8 +36,8 @@ const TableComponent = props => {
             </Table.Cell>
             <Table.Cell>
               {book.authors &&
-                book.authors.map(author => (
-                  <a href={`https://openlibrary.org${author.key}`} target="_blank">
+                book.authors.map((author, index) => (
+                  <a key={index} href={`https://openlibrary.org${author.key}`} target="_blank">
                     {author.key ? author.key : author.author.key}
                     <br />
                   </a>
@@ -45,8 +45,8 @@ const TableComponent = props => {
             </Table.Cell>
             <Table.Cell>
               {book.publishers ? (
-                book.publishers.map(publisher => (
-                  <div>
+                book.publishers.map((publisher, index) => (
+                  <div key={index}>
                     {publisher}
                     <br />
                   </div>
@@ -63,7 +63,7 @@ const TableComponent = props => {
             <Table.Cell selectable>
               <span className="action">Read?</span>{' '}
               <Checkbox
-                id={i}
+                id={index}
                 checked={book.checked}
                 onChange={e => {
                   handleCheckbox(e, props)
