@@ -12,7 +12,7 @@ const booksReducer = (state = [], action) => {
 
     case UPDATE_READ:
       return state.map((book, index) => {
-        if (index == action.index) {
+        if (index === action.index) {
           return Object.assign({}, book, {
             checked: !book.checked
           })
